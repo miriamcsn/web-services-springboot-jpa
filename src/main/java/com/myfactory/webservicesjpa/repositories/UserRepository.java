@@ -1,4 +1,4 @@
-package com.myfactory.webservicesjpa.repos;
+package com.myfactory.webservicesjpa.repositories;
 
 import com.myfactory.webservicesjpa.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
