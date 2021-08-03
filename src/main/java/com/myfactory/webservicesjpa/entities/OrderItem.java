@@ -1,5 +1,6 @@
 package com.myfactory.webservicesjpa.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myfactory.webservicesjpa.entities.pk.OrderItemPK;
 
 import javax.persistence.EmbeddedId;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class OrderItem implements Serializable {
 
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
@@ -28,9 +29,12 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
+    // confesso q nao entendi bem pq o jsonignore foi colocado aqui
+    // o prof disse q no java EE o q vale é o método Get mas nao entendi
 
     public void setOrder(Order order) {
         id.setOrder(order);
