@@ -16,7 +16,10 @@ public class Product implements Serializable {
     private String name, description, imgURL;
     private Double price;
 
-    @Transient
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
     // por que set e não uma lista?
     // porque lista aceita repetições, set não - e precisamos garantir que a categoria não se repita.
