@@ -2,6 +2,7 @@ package com.myfactory.webservicesjpa.config;
 
 import com.myfactory.webservicesjpa.entities.Order;
 import com.myfactory.webservicesjpa.entities.User;
+import com.myfactory.webservicesjpa.entities.enums.OrderStatus;
 import com.myfactory.webservicesjpa.repositories.OrderRepository;
 import com.myfactory.webservicesjpa.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,9 @@ public class TestConfig implements CommandLineRunner {
         User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
         User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 
-        Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1);
-        Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2);
-        Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1);
+        Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1, OrderStatus.PAID);
+        Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2, OrderStatus.WAITING_PAYMENT);
+        Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1, OrderStatus.WAITING_PAYMENT);
 
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
