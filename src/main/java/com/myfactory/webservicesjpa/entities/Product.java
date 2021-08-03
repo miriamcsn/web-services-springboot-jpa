@@ -1,5 +1,7 @@
 package com.myfactory.webservicesjpa.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -29,6 +31,10 @@ public class Product implements Serializable {
 
     // por que hashset ao invés de set?
     // porque set é uma interface. HashSet é uma classe que extends set, e por isso temos que usar ela.
+
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> orderItems = new HashSet<>();
 
 
     public Product() {
@@ -88,6 +94,14 @@ public class Product implements Serializable {
         return categories;
     }
 
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem item : orderItems) {
+            set.add(item.getOrder());
+        }
+        return set;
+    }
 
     @Override
     public boolean equals(Object o) {
