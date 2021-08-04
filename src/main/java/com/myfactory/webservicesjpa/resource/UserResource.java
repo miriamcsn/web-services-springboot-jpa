@@ -40,5 +40,14 @@ public class UserResource {
         return ResponseEntity.created(uri).body(obj);
     }
     // essa requisicao precisa retornar o código http 201 que significa q a insercao no bd foi feita c sucesso
+    // e isso é feito atraves do metodo created :)
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    // essa requisicao precisa retornar o código http 204 que significa uma resposta sem conteúdo (void)
+
 
 }
