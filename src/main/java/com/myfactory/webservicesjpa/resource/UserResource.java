@@ -50,4 +50,10 @@ public class UserResource {
     // essa requisicao precisa retornar o código http 204 que significa uma resposta sem conteúdo (void)
 
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
+        obj = userService.update(id, obj);
+        return ResponseEntity.ok().body(obj);
+    }
+
 }

@@ -41,4 +41,18 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User update(Long id, User obj) {
+        User entity = userRepository.getOne(id);
+        //getOne is deprecated, tried replacing by findById or findOne but neither did work =/
+        updateData(entity, obj);
+        return userRepository.save(entity);
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
+        // só esses três, não vou querer que atualize id nem senha!
+    }
 }
