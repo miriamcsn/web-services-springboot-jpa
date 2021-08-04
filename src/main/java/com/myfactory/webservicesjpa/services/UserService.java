@@ -2,6 +2,7 @@ package com.myfactory.webservicesjpa.services;
 
 import com.myfactory.webservicesjpa.entities.User;
 import com.myfactory.webservicesjpa.repositories.UserRepository;
+import com.myfactory.webservicesjpa.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,27 +12,23 @@ import java.util.Optional;
 
 import java.util.List;
 
-//@Component //registra sua classe como componente do Spring e ele vai poder injeta-la automaticamente em outros locais com o @Autowired
-//porém, Component é muito genérica. Existem anotações de Component mais específicas! Repository, Service... nesse caso, usaremos Service.
+//@Component //registra sua classe como componente do Spring e ele vai
+// poder injeta-la automaticamente em outros locais com o @Autowired
+// Porém, Component é muito genérica. Existem anotações de Component mais específicas!
+// Repository, Service... nesse caso, usaremos Service.
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-//    @GetMapping
-//    public ResponseEntity<User> findAll() {
-//        User u2 = new User(2L, "Miriam", "miriam@gmail.com", "9999999", "12345");
-//        userRepository.save(u2);
-//        return ResponseEntity.ok().body(userRepository.getById(2L));
-
     public List<User> findAll() {  // camada de serviço passando pra camada de repositório <3
         return userRepository.findAll();
     }
 
     public User findById(Long id) {
-        Optional<User> obj = userRepository.findById(id);  //optional é um utilitário meio q curinga
-        return obj.get(); //retorna um objeto tipo User que tenha o id fornecido e esteja dentro de Optional
+        Optional<User> obj = userRepository.findById(id);
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
