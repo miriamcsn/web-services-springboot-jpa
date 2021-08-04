@@ -34,4 +34,8 @@ public class UserService {
         return obj.get(); //retorna um objeto tipo User que tenha o id fornecido e esteja dentro de Optional
     }
 
+    public User insert(User obj) {
+        return userRepository.save(obj);
+    }
+
 }

@@ -5,11 +5,10 @@ import com.myfactory.webservicesjpa.repositories.UserRepository;
 import com.myfactory.webservicesjpa.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,7 +22,6 @@ public class UserResource {
     public ResponseEntity<List<User>> findAll() {
         List<User> users = userService.findAll();
         return ResponseEntity.ok().body(users);
-//        return ResponseEntity.ok().body(userService.findAll());
     }
 
 
@@ -32,8 +30,15 @@ public class UserResource {
         return ResponseEntity.ok().body(userService.findById(id));
     }
 
-//    public ResponseEntity<User> findAll(@RequestParam String name, @RequestParam String phone) {
-        //        User u = new User(1L, name, "maria@gmail.com", phone, "12345");
-
+    @PostMapping
+    public ResponseEntity<User> insert(@RequestBody User obj) {
+        obj = userService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(obj.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(obj);
+    }
+    // essa requisicao precisa retornar o código http 201 que significa q a insercao no bd foi feita c sucesso
 
 }
